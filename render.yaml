@@ -16,9 +16,9 @@ services:
         value: 10000
 
   # Frontend service (Static)
-  - type: web
+  - type: static
     name: legal-ai-frontend
-    env: static
+    env: node
     buildCommand: cd frontend && npm install && npm run build
     publishDir: frontend/dist
     envVars:
