@@ -12,6 +12,3 @@ python-dotenv
 requests
 pydantic
 pydantic-settings
-gunicorn
-uvicorn[standard]
-psycopg2-binary

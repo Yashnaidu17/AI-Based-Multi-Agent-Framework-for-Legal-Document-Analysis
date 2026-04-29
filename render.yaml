@@ -1,28 +1,36 @@
 services:
-  # Backend service (FastAPI)
+  # Backend FastAPI Service
   - type: web
     name: legal-ai-backend
     env: python
     buildCommand: pip install -r backend/requirements.txt
-    startCommand: cd backend && gunicorn main:app -w 4 -k uvicorn.workers.UvicornWorker --bind 0.0.0.0:$PORT
+    startCommand: cd backend && uvicorn main:app --host 0.0.0.0 --port $PORT
     envVars:
-      - key: DATABASE_URL
-        sync: false
-        placeholder: "postgres://user:password@host:port/dbname"
       - key: OPENAI_API_KEY
         sync: false
       - key: SECRET_KEY
         generateValue: true
-      - key: PORT
-        value: 10000
+      - key: DATABASE_URL
+        value: sqlite:///./legal_analysis.db
+      - key: PYTHON_VERSION
+        value: 3.10.0
 
-  # Frontend service (Served via Node)
-  - type: web
+  # Frontend Static Site
+  - type: static
     name: legal-ai-frontend
-    env: node
+    env: static
     buildCommand: cd frontend && npm install && npm run build
-    startCommand: cd frontend && npx serve -s dist -l $PORT
+    staticPublishPath: frontend/dist
     envVars:
       - key: VITE_API_BASE_URL
-        sync: false
-        placeholder: "https://legal-ai-backend.onrender.com"
+        fromService:
+          type: web
+          name: legal-ai-backend
+          property: host
+    routes:
+      - type: rewrite
+        source: /api/*
+        destination: https://legal-ai-backend.onrender.com/api/* # Replace with actual backend URL after first deploy
+      - type: rewrite
+        source: /*
+        destination: /index.html
