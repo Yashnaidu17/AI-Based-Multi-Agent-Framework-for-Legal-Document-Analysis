@@ -23,7 +23,5 @@ services:
     startCommand: cd frontend && npx serve -s dist -l $PORT
     envVars:
       - key: VITE_API_BASE_URL
-        fromService:
-          type: web
-          name: legal-ai-backend
-          property: url
+        sync: false
+        placeholder: "https://legal-ai-backend.onrender.com"
