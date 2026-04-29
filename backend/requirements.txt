@@ -12,3 +12,5 @@ python-dotenv
 requests
 pydantic
 pydantic-settings
+gunicorn
+uvicorn[standard]
