@@ -1,0 +1,45 @@
+version: '3.8'
+
+services:
+  # PostgreSQL Database (optional - for production)
+  # db:
+  #   image: postgres:15
+  #   environment:
+  #     POSTGRES_USER: legal_user
+  #     POSTGRES_PASSWORD: legal_password
+  #     POSTGRES_DB: legal_db
+  #   volumes:
+  #     - postgres_data:/var/lib/postgresql/data
+  #   ports:
+  #     - "5432:5432"
+
+  # Backend API
+  backend:
+    build:
+      context: .
+      dockerfile: Dockerfile.backend
+    environment:
+      OPENAI_API_KEY: ${OPENAI_API_KEY}
+      SECRET_KEY: ${SECRET_KEY}
+      DATABASE_URL: sqlite:///./legal_analysis.db
+      HOST: 0.0.0.0
+      PORT: 8000
+    ports:
+      - "8000:8000"
+    volumes:
+      - ./backend:/app
+    depends_on:
+      - frontend
+
+  # Frontend
+  frontend:
+    build:
+      context: .
+      dockerfile: Dockerfile.frontend
+    ports:
+      - "3000:3000"
+    environment:
+      VITE_API_URL: http://localhost:8000
+
+# volumes:
+#   postgres_data:

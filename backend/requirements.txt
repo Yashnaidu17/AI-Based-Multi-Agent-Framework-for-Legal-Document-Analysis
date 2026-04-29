@@ -1,0 +1,14 @@
+fastapi
+uvicorn
+pdfplumber
+langchain
+langchain-openai
+openai
+bcrypt
+python-jose[cryptography]
+python-multipart
+sqlalchemy
+python-dotenv
+requests
+pydantic
+pydantic-settings
