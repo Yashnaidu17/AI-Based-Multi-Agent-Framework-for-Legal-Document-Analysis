@@ -1,0 +1,44 @@
+# Git
+.git
+.gitignore
+
+# Node
+**/node_modules
+**/dist
+**/build
+.npm
+npm-debug.log*
+
+# Python
+**/__pycache__
+**/*.pyc
+**/*.pyo
+**/*.pyd
+**/.pytest_cache
+**/.venv
+**/venv
+ENV/
+
+# Database
+**/*.db
+**/*.sqlite3
+
+# Logs
+**/*.log
+
+# Environment
+.env
+.env.local
+
+# IDEs
+.vscode
+.idea
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Docker
+Dockerfile*
+docker-compose*
+.dockerignore

@@ -21,6 +21,7 @@ The **AI-Based Multi-Agent Framework for Legal Document Analysis** is an end-to-
 - **Multi-Agent Orchestration**: Specialized agents working in a coordinated loop to analyze documents.
 - **Deep Document Parsing**: Extracts structural information from PDFs using `pdfplumber`.
 - **Integrated Legal Search**: Direct integration with the Indian Kanoon API for case law verification.
+- **RAG-Powered Chatbot**: Retrieval-Augmented Generation for precise, context-aware legal discussion using FAISS and LangChain.
 - **Interactive Chatbot**: Context-aware legal assistant based on the uploaded document.
 - **Visualization**: Graph-based representation of legal entities and relationships.
 - **Courtroom Simulation**: AI-driven simulation of legal arguments and counter-arguments.

@@ -7,6 +7,7 @@ import json
 import aiohttp
 from typing import Optional
 from dotenv import load_dotenv
+from utils.rag_utils import retrieve_context
 
 load_dotenv()
 
@@ -26,9 +27,9 @@ class LegalChatbot:
         """Set document context for chatbot"""
         self.document_context = context
     
-    async def chat(self, user_message: str) -> str:
+    async def chat(self, user_message: str, doc_id: Optional[str] = None) -> str:
         """
-        Get chatbot response to user message
+        Get chatbot response to user message with RAG support
         """
         # Add user message to history
         self.conversation_history.append({
@@ -47,8 +48,16 @@ Provide clear, accurate, and helpful responses about legal matters.
 If asked about a specific document, use the provided context to give specific analysis.
 Always encourage users to consult with actual lawyers for specific legal advice."""
             
-            if self.document_context:
-                system_prompt += f"\n\nYou have access to the following case context:\n{self.document_context}"
+            # RAG: Retrieve relevant context if doc_id is provided
+            dynamic_context = ""
+            if doc_id:
+                dynamic_context = retrieve_context(doc_id, user_message)
+            
+            if dynamic_context:
+                system_prompt += f"\n\nRelevant segments from the legal document:\n{dynamic_context}"
+            elif self.document_context:
+                # Fallback to full context if RAG not used or no matches (though RAG is usually better)
+                system_prompt += f"\n\nYou have access to the following case summary:\n{self.document_context[:2000]}..."
             
             # Prepare messages
             messages = [

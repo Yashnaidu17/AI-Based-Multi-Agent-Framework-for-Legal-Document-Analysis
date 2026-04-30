@@ -12,3 +12,6 @@ python-dotenv
 requests
 pydantic
 pydantic-settings
+faiss-cpu
+tiktoken
+langchain-community

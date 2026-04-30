@@ -24,6 +24,7 @@ from graph import generate_argument_graph
 from simulation import run_what_if_simulation
 from similarity import find_similar_cases
 from courtroom import simulate_courtroom
+from utils.rag_utils import ingest_document
 
 import indiankanoon as ik
 import tempfile
@@ -145,6 +146,9 @@ async def analyze_document(
             db.add(document)
             db.commit()
             
+            # RAG: Ingest document for chatbot retrieval
+            ingest_document(str(document.id), pdf_text)
+            
             return {
                 "success": True,
                 "document_id": document.id,
@@ -243,7 +247,7 @@ async def chat(
         if document_context:
             chatbot.set_context(document_context)
             
-        response = await chatbot.chat(user_message)
+        response = await chatbot.chat(user_message, doc_id=str(document_id) if document_id else None)
         
         return {
             "success": True,
